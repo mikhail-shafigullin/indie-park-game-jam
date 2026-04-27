@@ -8,10 +8,10 @@
 [node name="TestWorld" type="Node2D" unique_id=517684858]
 
 [node name="Hovercraft2D" parent="." unique_id=1640316669 instance=ExtResource("1_wc80j")]
-position = Vector2(98, 105)
+position = Vector2(98, 106)
 speed = 20.0
-mass = 15.0
-wing = 10.0
+mass = 20.0
+wing = 15.0
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2018019872]
 position = Vector2(243, 172)

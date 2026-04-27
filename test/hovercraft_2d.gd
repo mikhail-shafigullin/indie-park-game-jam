@@ -6,6 +6,7 @@ var ang_velocity: float = 0.0
 @export var drag: float = 1.0 # 
 @export var mass: float = 1.0 #
 @export var wing: float = 1.0 # how much velocity is kept doing the turn
+@export var _airbrake_effectiveness: float = 0
 
 func _process(delta: float) -> void:
 	%Exhaust.visible = input_vector.y < 0
@@ -15,7 +16,8 @@ func _input(event: InputEvent) -> void:
 	input_vector = Input.get_vector("left", "right", "forward", "back")
 
 func apply_thrust(delta: float) -> void:
-	velocity += (Vector2.DOWN * input_vector.y * speed * 100 * delta).rotated(rotation) / mass
+	var thrust: float = min(input_vector.y, 0.0)
+	velocity += (Vector2.DOWN * thrust * speed * 100 * delta).rotated(rotation) / mass
 	ang_velocity += input_vector.x * delta * 0.2
 	
 
@@ -25,8 +27,9 @@ func apply_drag(delta: float) -> void:
 	var forward: Vector2 = Vector2.UP.rotated(rotation)
 	var resistance: float = velocity.normalized().dot(forward) # -1 = back / 0 = 90deg / 1 = forward
 	var drag_force: Vector2 = velocity * -drag
+	
 	if (resistance < 0): #moving backwards
-		drag_force *= abs(resistance) + 1
+		drag_force *= (1 - resistance) * 0.5
 	else:
 		drag_force *= (1 - resistance)
 	
