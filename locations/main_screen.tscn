@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c13gn2seuwkmp" path="res://test/test_world.tscn" id="1_c1kvk"]
 [ext_resource type="Script" uid="uid://ck4wm1h8yfeqq" path="res://locations/main_screen.gd" id="1_h2gq1"]
+[ext_resource type="Script" uid="uid://b7hymhl01p04r" path="res://locations/event_logger.gd" id="3_60q64"]
 
 [node name="MainScreen" type="Node2D" unique_id=936342216]
 script = ExtResource("1_h2gq1")
@@ -13,3 +14,6 @@ unique_name_in_owner = true
 [node name="TestWorld" parent="Location" unique_id=517684858 instance=ExtResource("1_c1kvk")]
 
 [node name="UICanvas" type="CanvasLayer" parent="." unique_id=1566855248]
+
+[node name="EventLogger" type="Node" parent="." unique_id=126856329]
+script = ExtResource("3_60q64")

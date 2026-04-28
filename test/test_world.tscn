@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cjwkwn438wke8" path="res://test/hovercraft_2d.tscn" id="1_wc80j"]
 [ext_resource type="Texture2D" uid="uid://dpqft017e2x1s" path="res://icon.svg" id="2_2rk4f"]
+[ext_resource type="PackedScene" uid="uid://cviu61hhq22wp" path="res://actors/circle_enemy.tscn" id="3_h6qxq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h6qxq"]
 
@@ -26,3 +27,5 @@ shape = SubResource("RectangleShape2D_h6qxq")
 [node name="Icon" type="Sprite2D" parent="StaticBody2D" unique_id=2062565339]
 scale = Vector2(0.1457418, 0.1457418)
 texture = ExtResource("2_2rk4f")
+
+[node name="CircleEnemy" parent="." unique_id=1753604147 instance=ExtResource("3_h6qxq")]

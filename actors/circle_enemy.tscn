@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cviu61hhq22wp"]
+
+[ext_resource type="Script" path="res://actors/circle_enemy.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dpqft017e2x1s" path="res://icon.svg" id="2_apicl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_apicl"]
+radius = 31.0
+
+[node name="CircleEnemy" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_script")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_apicl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_apicl")
