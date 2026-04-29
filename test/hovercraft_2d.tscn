@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://lm4d6vqwkq13" path="res://test/hovercraft_2d.gd" id="1_qolxj"]
 
-[node name="Hovercraft2D" type="CharacterBody2D" groups=["player"] unique_id=1640316669]
-motion_mode = 1
+[node name="Hovercraft2D" type="RigidBody2D" unique_id=95157546]
+gravity_scale = 0.0
+can_sleep = false
 script = ExtResource("1_qolxj")
 metadata/_edit_group_ = true
 

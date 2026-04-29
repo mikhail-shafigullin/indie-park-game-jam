@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends RigidBody2D
 
 var input_vector: Vector2 = Vector2.ZERO
 var ang_velocity: float = 0.0
@@ -9,8 +9,8 @@ var ang_velocity: float = 0.0
 @export var side_resistance: float = 1
 
 @export var speed: float = 1.0
-@export var mass: float = 1.0 #
-@export var wing: float = 1.0 # how much velocity is kept doing the turn
+# @export var mass: float = 1.0 #
+@export var wing: float = 1.0 # how much linear_velocity is kept doing the turn
 @export var _airbrake_effectiveness: float = 0
 
 func _process(delta: float) -> void:
@@ -22,36 +22,27 @@ func _input(event: InputEvent) -> void:
 
 func apply_thrust(delta: float) -> void:
 	var thrust: float = min(input_vector.y, 0.0)
-	velocity += (Vector2.DOWN * thrust * speed * 100 * delta).rotated(rotation) / mass
+	linear_velocity += (Vector2.DOWN * thrust * speed * 100 * delta).rotated(rotation) / mass
 	ang_velocity += input_vector.x * delta * 0.2
 	
 
 func apply_drag(delta: float) -> void:
 	ang_velocity -= ang_velocity * 2 * delta
 
-	var drag_force: Vector2 = velocity * -drag
+	var drag_force: Vector2 = linear_velocity * -drag
 	var forward: Vector2 = Vector2.UP.rotated(rotation)
-	var dir: float = velocity.normalized().dot(forward) # -1 = back / 0 = 90deg / 1 = forward
+	var dir: float = linear_velocity.normalized().dot(forward) # -1 = back / 0 = 90deg / 1 = forward
 
 	if (dir > 0): # moving forward
 		drag_force *= lerp(side_resistance, forward_resistance, dir)
 	else: #moving backwards
 		drag_force *= lerp(side_resistance, backwards_resistance, abs(dir))
 	
-	velocity += drag_force / mass * delta
+	linear_velocity += drag_force / mass * delta
 
 func apply_wing(delta: float) -> void:
-	# var forward: Vector2 = Vector2.UP.rotated(rotation)
-	# var forward_vel: Vector2 = velocity.rotated((velocity.angle_to(forward)))
-	# var efficiency: float = wing / mass
-	# var dir: float = velocity.normalized().dot(forward) # -1 = back / 0 = 90deg / 1 = forward
-	# if (dir > 0):
-	# 	efficiency *= dir
-
-	# velocity = lerp(velocity, forward_vel, max(efficiency * delta, 0.0))
-
-	var travel_speed: float = velocity.length()
-	var travel_dir: Vector2 = velocity.normalized()
+	var travel_speed: float = linear_velocity.length()
+	var travel_dir: Vector2 = linear_velocity.normalized()
 	var forward_dir: Vector2 = Vector2.UP.rotated(rotation)
 
 	var efficiency: float = wing / mass
@@ -61,9 +52,7 @@ func apply_wing(delta: float) -> void:
 	else:
 		efficiency *= dir * 0.3
 
-	velocity = (Vector2.RIGHT * travel_speed).rotated(lerp_angle(travel_dir.angle(), forward_dir.angle(), efficiency * delta))
-
-
+	linear_velocity = (Vector2.RIGHT * travel_speed).rotated(lerp_angle(travel_dir.angle(), forward_dir.angle(), efficiency * delta))
 
 
 func _physics_process(delta: float) -> void:
@@ -72,4 +61,3 @@ func _physics_process(delta: float) -> void:
 	apply_wing(delta)
 
 	rotation += ang_velocity
-	move_and_slide()
